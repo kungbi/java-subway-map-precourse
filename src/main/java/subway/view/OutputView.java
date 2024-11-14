@@ -1,6 +1,7 @@
 package subway.view;
 
 import java.util.List;
+import subway.dto.LineDto;
 import subway.dto.StationDto;
 
 public class OutputView {
@@ -45,6 +46,22 @@ public class OutputView {
         stations.forEach((station) -> this.printInfo(station.name()));
         System.out.println();
     }
+
+    public void printLines(List<LineDto> lines) {
+        System.out.println("## 노선 목록");
+        lines.forEach((line) -> this.printInfo(line.name()));
+        System.out.println();
+    }
+
+
+    public void printStationRemovedMessage() {
+        printInfo("지하철 역이 삭제되었습니다.");
+    }
+
+    public void printLineRemovedMessage() {
+        printInfo("지하철 노선이 삭제되었습니다.");
+    }
+
 
     public void printInfo(String message) {
         System.out.println("[INFO] " + message);

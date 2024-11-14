@@ -5,6 +5,9 @@ import subway.command.LineCommand;
 import subway.command.MainCommand;
 import subway.command.SectionCommand;
 import subway.command.StationCommand;
+import subway.dto.LineDto;
+import subway.dto.LineRegisterDto.LineRegisterInputDto;
+import subway.dto.LineRemoveDto.LineRemoveInputDto;
 import subway.dto.StationDto;
 import subway.dto.StationRegisterDto.StationRegisterInputDto;
 import subway.dto.StationRemoveDto.StationRemoveInputDto;
@@ -57,6 +60,7 @@ public class SubwayController {
         if (mainCommand == MainCommand.LINE) {
             outputView.printLineManageMenu();
             LineCommand lineCommand = LineCommand.find(retryInputUtil.getLineCommand());
+            this.lineLogic(lineCommand);
         }
         if (mainCommand == MainCommand.SECTION) {
             outputView.printSectionManageMenu();
@@ -81,6 +85,7 @@ public class SubwayController {
         if (stationCommand == StationCommand.REMOVE) {
             String stationName = retryInputUtil.getRemoveStationName();
             stationService.remove(new StationRemoveInputDto(stationName));
+            outputView.printStationRemovedMessage();
         }
         if (stationCommand == StationCommand.RETRIEVE) {
             List<StationDto> stations = stationService.retrieve().stations();
@@ -88,5 +93,26 @@ public class SubwayController {
         }
     }
 
+    private void lineLogic(LineCommand lineCommand) {
+        if (lineCommand == LineCommand.BACK) {
+            return;
+        }
+
+        if (lineCommand == LineCommand.REGISTER) {
+            String lineName = retryInputUtil.getRegisterLineName();
+            String startStationName = retryInputUtil.getRegisterLineStartStationName();
+            String endStationName = retryInputUtil.getRegisterLineEndStationName();
+            lineService.register(new LineRegisterInputDto(lineName, startStationName, endStationName));
+        }
+        if (lineCommand == LineCommand.REMOVE) {
+            String lineName = retryInputUtil.getRemoveLineName();
+            lineService.remove(new LineRemoveInputDto(lineName));
+            outputView.printLineRemovedMessage();
+        }
+        if (lineCommand == LineCommand.RETRIEVE) {
+            List<LineDto> lines = lineService.retrieve().lines();
+            outputView.printLines(lines);
+        }
+    }
 
 }

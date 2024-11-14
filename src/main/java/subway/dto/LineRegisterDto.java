@@ -1,6 +1,6 @@
 package subway.dto;
 
 public class LineRegisterDto {
-    public record LineRegisterInputDto(String lineName, StationDto startStation, StationDto endStation) {
+    public record LineRegisterInputDto(String lineName, String startStation, String endStation) {
     }
 }
