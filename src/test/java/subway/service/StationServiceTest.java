@@ -2,21 +2,14 @@ package subway.service;
 
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import subway.domain.Station;
 import subway.dto.StationDto;
 import subway.dto.StationRegisterDto.StationRegisterInputDto;
 import subway.dto.StationRemoveDto.StationRemoveInputDto;
-import subway.dto.StationRetrieveDto.StationRetrieveOutputDto;
 import subway.repository.StationRepository;
 
 class StationServiceTest {
-
-    @BeforeEach
-    void setUp() {
-        StationRepository.clear();
-    }
 
     @Test
     void 정상__정류장_등록() {

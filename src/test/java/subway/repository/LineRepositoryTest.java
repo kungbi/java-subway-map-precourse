@@ -1,17 +1,11 @@
 package subway.repository;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import subway.domain.Line;
 import subway.domain.Station;
 
 class LineRepositoryTest {
-
-    @BeforeEach
-    void setUp() {
-        LineRepository.clear();
-    }
 
     @Test
     void 정상__Line_추가() {

@@ -1,16 +1,10 @@
 package subway.repository;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import subway.domain.Station;
 
 class StationRepositoryTest {
-
-    @BeforeEach
-    void setUp() {
-        StationRepository.clear();
-    }
 
     @Test
     void 정상__역_추가() {

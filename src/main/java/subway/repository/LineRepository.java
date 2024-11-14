@@ -6,11 +6,7 @@ import subway.domain.Line;
 import subway.domain.Station;
 
 public class LineRepository implements Repository<Line> {
-    private static final List<Line> lines = new ArrayList<>();
-
-    public static void clear() {
-        lines.clear();
-    }
+    private final List<Line> lines = new ArrayList<>();
 
     public void addStation(Line line, Station station) {
         line.addStation(station);

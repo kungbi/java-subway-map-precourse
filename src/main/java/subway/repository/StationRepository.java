@@ -5,11 +5,7 @@ import java.util.List;
 import subway.domain.Station;
 
 public class StationRepository implements Repository<Station> {
-    private static final List<Station> stations = new ArrayList<>();
-
-    public static void clear() {
-        stations.clear();
-    }
+    private final List<Station> stations = new ArrayList<>();
 
     @Override
     public void add(Station station) {
