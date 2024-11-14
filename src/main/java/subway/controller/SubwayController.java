@@ -5,6 +5,10 @@ import subway.command.LineCommand;
 import subway.command.MainCommand;
 import subway.command.SectionCommand;
 import subway.command.StationCommand;
+import subway.controller.retryInputUtil.LineRetryInput;
+import subway.controller.retryInputUtil.RetryInputUtil;
+import subway.controller.retryInputUtil.SectionRetryInput;
+import subway.controller.retryInputUtil.StationRetryInput;
 import subway.dto.LineDto;
 import subway.dto.LineRegisterDto.LineRegisterInputDto;
 import subway.dto.LineRemoveDto.LineRemoveInputDto;
@@ -13,23 +17,15 @@ import subway.dto.StationRegisterDto.StationRegisterInputDto;
 import subway.dto.StationRemoveDto.StationRemoveInputDto;
 import subway.service.LineService;
 import subway.service.StationService;
-import subway.view.InputView;
 import subway.view.OutputView;
 
 public class SubwayController {
-    private final InputView inputView;
-    private final OutputView outputView;
-    private final RetryInputUtil retryInputUtil;
     private final StationService stationService;
     private final LineService lineService;
 
-    public SubwayController(InputView inputView, OutputView outputView, StationService stationService,
-                            LineService lineService) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    public SubwayController(StationService stationService, LineService lineService) {
         this.stationService = stationService;
         this.lineService = lineService;
-        this.retryInputUtil = new RetryInputUtil(inputView, outputView);
     }
 
     public void run() {
@@ -37,12 +33,12 @@ public class SubwayController {
 
         while (state == 0) {
             try {
-                outputView.printMainMenu();
-                MainCommand mainCommand = MainCommand.find(retryInputUtil.getMainCommand());
+                OutputView.printMainMenu();
+                MainCommand mainCommand = MainCommand.find(RetryInputUtil.getMainCommand());
 
                 state = mainLogic(mainCommand);
             } catch (IllegalArgumentException error) {
-                outputView.printError(error.getMessage());
+                OutputView.printError(error.getMessage());
             }
         }
     }
@@ -53,18 +49,18 @@ public class SubwayController {
         }
 
         if (mainCommand == MainCommand.STATION) {
-            outputView.printStationManageMenu();
-            StationCommand stationCommand = StationCommand.find(retryInputUtil.getStationCommand());
+            OutputView.printStationManageMenu();
+            StationCommand stationCommand = StationCommand.find(StationRetryInput.getCommand());
             this.stationLogic(stationCommand);
         }
         if (mainCommand == MainCommand.LINE) {
-            outputView.printLineManageMenu();
-            LineCommand lineCommand = LineCommand.find(retryInputUtil.getLineCommand());
+            OutputView.printLineManageMenu();
+            LineCommand lineCommand = LineCommand.find(LineRetryInput.getCommand());
             this.lineLogic(lineCommand);
         }
         if (mainCommand == MainCommand.SECTION) {
-            outputView.printSectionManageMenu();
-            SectionCommand sectionCommand = SectionCommand.find(retryInputUtil.getSectionCommand());
+            OutputView.printSectionManageMenu();
+            SectionCommand sectionCommand = SectionCommand.find(SectionRetryInput.getCommand());
         }
         if (mainCommand == MainCommand.LINE_PRINT) {
             // outputview에 구현 해야함.
@@ -79,17 +75,17 @@ public class SubwayController {
         }
 
         if (stationCommand == StationCommand.REGISTER) {
-            String stationName = retryInputUtil.getRegisterStationName();
+            String stationName = StationRetryInput.getStationName();
             stationService.register(new StationRegisterInputDto(stationName));
         }
         if (stationCommand == StationCommand.REMOVE) {
-            String stationName = retryInputUtil.getRemoveStationName();
+            String stationName = StationRetryInput.getRemoveStationName();
             stationService.remove(new StationRemoveInputDto(stationName));
-            outputView.printStationRemovedMessage();
+            OutputView.printStationRemovedMessage();
         }
         if (stationCommand == StationCommand.RETRIEVE) {
             List<StationDto> stations = stationService.retrieve().stations();
-            outputView.printStations(stations);
+            OutputView.printStations(stations);
         }
     }
 
@@ -99,20 +95,35 @@ public class SubwayController {
         }
 
         if (lineCommand == LineCommand.REGISTER) {
-            String lineName = retryInputUtil.getRegisterLineName();
-            String startStationName = retryInputUtil.getRegisterLineStartStationName();
-            String endStationName = retryInputUtil.getRegisterLineEndStationName();
+            String lineName = LineRetryInput.getRegisterLineName();
+            String startStationName = LineRetryInput.getRegisterLineStartStationName();
+            String endStationName = LineRetryInput.getRegisterLineEndStationName();
             lineService.register(new LineRegisterInputDto(lineName, startStationName, endStationName));
         }
         if (lineCommand == LineCommand.REMOVE) {
-            String lineName = retryInputUtil.getRemoveLineName();
+            String lineName = LineRetryInput.getRemoveLineName();
             lineService.remove(new LineRemoveInputDto(lineName));
-            outputView.printLineRemovedMessage();
+            OutputView.printLineRemovedMessage();
         }
         if (lineCommand == LineCommand.RETRIEVE) {
             List<LineDto> lines = lineService.retrieve().lines();
-            outputView.printLines(lines);
+            OutputView.printLines(lines);
         }
     }
 
+    private void sectionLogic(SectionCommand sectionCommand) {
+        if (sectionCommand == SectionCommand.BACK) {
+            return;
+        }
+
+        if (sectionCommand == SectionCommand.REGISTER) {
+            String lineName = SectionRetryInput.getLineName();
+            SectionRetryInput.getStationName();
+            SectionRetryInput.getOrderNumber();
+        }
+        if (sectionCommand == SectionCommand.REMOVE) {
+            SectionRetryInput.getRemoveLineName();
+            SectionRetryInput.getRemoveStationName();
+        }
+    }
 }

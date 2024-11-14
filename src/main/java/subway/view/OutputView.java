@@ -5,7 +5,7 @@ import subway.dto.LineDto;
 import subway.dto.StationDto;
 
 public class OutputView {
-    public void printMainMenu() {
+    public static void printMainMenu() {
         System.out.println("## 메인 화면");
         System.out.println("1. 역 관리");
         System.out.println("2. 노선 관리");
@@ -15,7 +15,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printStationManageMenu() {
+    public static void printStationManageMenu() {
         System.out.println("## 역 관리 화면");
         System.out.println("1. 역 등록");
         System.out.println("2. 역 삭제");
@@ -24,7 +24,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printLineManageMenu() {
+    public static void printLineManageMenu() {
         System.out.println("## 노선 관리 화면");
         System.out.println("1. 노선 등록");
         System.out.println("2. 노선 삭제");
@@ -33,7 +33,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printSectionManageMenu() {
+    public static void printSectionManageMenu() {
         System.out.println("## 구간 관리 화면");
         System.out.println("1. 구간 등록");
         System.out.println("2. 구간 삭제");
@@ -41,33 +41,37 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printStations(List<StationDto> stations) {
+    public static void printStations(List<StationDto> stations) {
         System.out.println("## 역 목록");
-        stations.forEach((station) -> this.printInfo(station.name()));
+        stations.forEach((station) -> printInfo(station.name()));
         System.out.println();
     }
 
-    public void printLines(List<LineDto> lines) {
+    public static void printLines(List<LineDto> lines) {
         System.out.println("## 노선 목록");
-        lines.forEach((line) -> this.printInfo(line.name()));
+        lines.forEach((line) -> printInfo(line.name()));
         System.out.println();
     }
 
 
-    public void printStationRemovedMessage() {
+    public static void printStationRemovedMessage() {
         printInfo("지하철 역이 삭제되었습니다.");
     }
 
-    public void printLineRemovedMessage() {
+    public static void printLineRemovedMessage() {
         printInfo("지하철 노선이 삭제되었습니다.");
     }
 
+    public static void printSectionRemovedMessage() {
+        printInfo("구간이 삭제되었습니다.");
+    }
 
-    public void printInfo(String message) {
+
+    public static void printInfo(String message) {
         System.out.println("[INFO] " + message);
     }
 
-    public void printError(String message) {
+    public static void printError(String message) {
         System.out.println("[ERROR] " + message);
         System.out.println();
     }
