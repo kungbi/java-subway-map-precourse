@@ -1,6 +1,7 @@
 package subway.controller.retryInputUtil;
 
 import subway.command.SectionCommand;
+import subway.controller.InputParser;
 import subway.validator.InputValidator;
 import subway.view.InputView;
 import subway.view.SectionInputView;
@@ -19,8 +20,9 @@ public class SectionRetryInput {
         return RetryInputUtil.retryLogics(SectionInputView::getStationName, InputValidator::nullValidate);
     }
 
-    public static String getOrderNumber() {
-        return RetryInputUtil.retryLogics(SectionInputView::getOrderNumber, InputValidator::nullValidate);
+    public static int getOrderNumber() {
+        return RetryInputUtil.retryLogics(SectionInputView::getOrderNumber, InputParser::parseInt,
+                InputValidator::orderNumberValidate);
     }
 
     public static String getRemoveLineName() {

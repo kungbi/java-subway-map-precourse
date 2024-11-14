@@ -12,20 +12,25 @@ import subway.controller.retryInputUtil.StationRetryInput;
 import subway.dto.LineDto;
 import subway.dto.LineRegisterDto.LineRegisterInputDto;
 import subway.dto.LineRemoveDto.LineRemoveInputDto;
+import subway.dto.SectionRegisterDto.SectionRegisterInputDto;
+import subway.dto.SectionRemoveDto.SectionRemoveInputDto;
 import subway.dto.StationDto;
 import subway.dto.StationRegisterDto.StationRegisterInputDto;
 import subway.dto.StationRemoveDto.StationRemoveInputDto;
 import subway.service.LineService;
+import subway.service.SectionService;
 import subway.service.StationService;
 import subway.view.OutputView;
 
 public class SubwayController {
     private final StationService stationService;
     private final LineService lineService;
+    private final SectionService sectionService;
 
-    public SubwayController(StationService stationService, LineService lineService) {
+    public SubwayController(StationService stationService, LineService lineService, SectionService sectionService) {
         this.stationService = stationService;
         this.lineService = lineService;
+        this.sectionService = sectionService;
     }
 
     public void run() {
@@ -61,6 +66,7 @@ public class SubwayController {
         if (mainCommand == MainCommand.SECTION) {
             OutputView.printSectionManageMenu();
             SectionCommand sectionCommand = SectionCommand.find(SectionRetryInput.getCommand());
+            this.sectionLogic(sectionCommand);
         }
         if (mainCommand == MainCommand.LINE_PRINT) {
             // outputview에 구현 해야함.
@@ -118,12 +124,14 @@ public class SubwayController {
 
         if (sectionCommand == SectionCommand.REGISTER) {
             String lineName = SectionRetryInput.getLineName();
-            SectionRetryInput.getStationName();
-            SectionRetryInput.getOrderNumber();
+            String stationName = SectionRetryInput.getStationName();
+            int orderNumber = SectionRetryInput.getOrderNumber();
+            sectionService.register(new SectionRegisterInputDto(lineName, stationName, orderNumber));
         }
         if (sectionCommand == SectionCommand.REMOVE) {
-            SectionRetryInput.getRemoveLineName();
-            SectionRetryInput.getRemoveStationName();
+            String lineName = SectionRetryInput.getRemoveLineName();
+            String stationName = SectionRetryInput.getRemoveStationName();
+            sectionService.remove(new SectionRemoveInputDto(lineName, stationName));
         }
     }
 }

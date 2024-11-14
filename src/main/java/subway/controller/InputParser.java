@@ -2,7 +2,7 @@ package subway.controller;
 
 public class InputParser {
 
-    public int parseInt(String input) {
+    public static int parseInt(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
