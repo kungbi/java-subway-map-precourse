@@ -3,7 +3,10 @@ package subway.controller;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import subway.validator.InputValidator;
+import subway.command.LineCommand;
+import subway.command.MainCommand;
+import subway.command.SectionCommand;
+import subway.command.StationCommand;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -18,10 +21,19 @@ public class RetryInputUtil {
     }
 
     public String getMainCommand() {
-        return retryLogics(
-                inputView::getCommand,
-                InputValidator::mainCommandValidate
-        );
+        return retryLogics(inputView::getCommand, MainCommand::find);
+    }
+
+    public String getStationCommand() {
+        return retryLogics(inputView::getCommand, StationCommand::find);
+    }
+
+    public String getLineCommand() {
+        return retryLogics(inputView::getCommand, LineCommand::find);
+    }
+
+    public String getSectionCommand() {
+        return retryLogics(inputView::getCommand, SectionCommand::find);
     }
 
     private <T> T retryLogics(Supplier<String> userInputReader, Function<String, T> parser, Consumer<T> validator) {

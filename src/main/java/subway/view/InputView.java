@@ -20,6 +20,8 @@ public class InputView {
 
     private String getUserInput() {
         System.out.print("> ");
-        return Console.readline();
+        String input = Console.readline();
+        System.out.println();
+        return input;
     }
 }

@@ -1,6 +1,9 @@
 package subway.controller;
 
-import subway.MainCommand;
+import subway.command.LineCommand;
+import subway.command.MainCommand;
+import subway.command.SectionCommand;
+import subway.command.StationCommand;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -33,13 +36,16 @@ public class SubwayController {
         }
 
         if (mainCommand == MainCommand.STATION) {
-            outputView.printSectionManageMenu();
+            outputView.printStationManageMenu();
+            StationCommand stationCommand = StationCommand.find(retryInputUtil.getStationCommand());
         }
         if (mainCommand == MainCommand.LINE) {
             outputView.printLineManageMenu();
+            LineCommand lineCommand = LineCommand.find(retryInputUtil.getLineCommand());
         }
-        if (mainCommand == MainCommand.STATION) {
-            outputView.printStationManageMenu();
+        if (mainCommand == MainCommand.SECTION) {
+            outputView.printSectionManageMenu();
+            SectionCommand sectionCommand = SectionCommand.find(retryInputUtil.getSectionCommand());
         }
         if (mainCommand == MainCommand.LINE_PRINT) {
             // outputview에 구현 해야함.

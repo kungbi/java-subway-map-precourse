@@ -1,4 +1,4 @@
-package subway;
+package subway.command;
 
 public enum MainCommand {
     STATION("1", "역 관리 "),
