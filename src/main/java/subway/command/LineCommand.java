@@ -3,7 +3,7 @@ package subway.command;
 public enum LineCommand {
     REGISTER("1", "노선 등록"),
     REMOVE("2", "노선 삭제"),
-    SEARCH("3", "노선 조회"),
+    RETRIEVE("3", "노선 조회"),
     BACK("B", "돌아가기");
 
     private final String command;

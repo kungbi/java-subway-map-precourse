@@ -3,8 +3,8 @@ package subway.command;
 public enum StationCommand {
     REGISTER("1", "역 등록"),
     REMOVE("2", "역 삭제"),
-    SEARCH("3", "역 조회"),
-    BACK("B", "역 조회");
+    RETRIEVE("3", "역 조회"),
+    BACK("B", "돌아가기");
 
 
     private final String command;

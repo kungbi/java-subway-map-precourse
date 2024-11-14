@@ -23,14 +23,14 @@ public class StationRepository implements Repository<Station> {
     }
 
     @Override
-    public boolean deleteStation(String name) {
+    public void deleteStation(String name) {
         for (Station station : stations) {
             if (station.getName().equals(name)) {
                 stations.remove(station);
-                return true;
+                return ;
             }
         }
-        return false;
+        throw new IllegalArgumentException("삭제할게 없음");
     }
 
     @Override
@@ -46,5 +46,10 @@ public class StationRepository implements Repository<Station> {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Station> findAll() {
+        return this.stations;
     }
 }
