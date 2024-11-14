@@ -22,13 +22,13 @@ public class SectionService {
             throw new IllegalArgumentException("노선이 없습니다.");
         }
 
-        Station station = this.stationRepository.findByName(input.lineName());
+        Station station = this.stationRepository.findByName(input.stationName());
         if (station == null) {
             throw new IllegalArgumentException("정류장이 없습니다.");
         }
 
-        lineRepository.addStation(line, station, input.index());
-
+        int index = input.orderNumber() - 1;
+        lineRepository.addStation(line, station, index);
     }
 
     public void remove(SectionRemoveInputDto input) {
