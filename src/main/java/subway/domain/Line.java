@@ -2,6 +2,7 @@ package subway.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Line {
@@ -18,6 +19,10 @@ public class Line {
         if (startStation == null || endStation == null) {
             throw new IllegalArgumentException();
         }
+        if (Objects.equals(startStation.getName(), endStation.getName())) {
+            throw new IllegalArgumentException();
+        }
+
         this.name = name;
         this.stations = new ArrayList<>(List.of(startStation, endStation));
     }
@@ -39,9 +44,7 @@ public class Line {
     }
 
     public List<String> getStationNames() {
-        return stations.stream()
-                .map(Station::getName)
-                .collect(Collectors.toList());
+        return stations.stream().map(Station::getName).collect(Collectors.toList());
     }
 
     public String getName() {
