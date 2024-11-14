@@ -14,11 +14,6 @@ public class LineRepository implements Repository<Line> {
     }
 
     @Override
-    public void add(Line data, int index) {
-        lines.add(index, data);
-    }
-
-    @Override
     public boolean deleteStation(String name) {
         for (Line line : lines) {
             if (line.getName().equals(name)) {

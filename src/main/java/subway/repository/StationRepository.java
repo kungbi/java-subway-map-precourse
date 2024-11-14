@@ -13,11 +13,6 @@ public class StationRepository implements Repository<Station> {
     }
 
     @Override
-    public void add(Station data, int index) {
-        stations.add(index, data);
-    }
-
-    @Override
     public boolean deleteStation(String name) {
         for (Station station : stations) {
             if (station.getName().equals(name)) {
