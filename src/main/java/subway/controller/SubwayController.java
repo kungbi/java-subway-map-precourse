@@ -69,7 +69,8 @@ public class SubwayController {
             this.sectionLogic(sectionCommand);
         }
         if (mainCommand == MainCommand.LINE_PRINT) {
-            // outputview에 구현 해야함.
+            List<LineDto> lines = lineService.retrieve().lines();
+            OutputView.printLineMap(lines);
         }
 
         return 0;
@@ -132,6 +133,7 @@ public class SubwayController {
             String lineName = SectionRetryInput.getRemoveLineName();
             String stationName = SectionRetryInput.getRemoveStationName();
             sectionService.remove(new SectionRemoveInputDto(lineName, stationName));
+            OutputView.printSectionRemovedMessage();
         }
     }
 }

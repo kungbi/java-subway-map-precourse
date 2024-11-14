@@ -53,6 +53,14 @@ public class OutputView {
         System.out.println();
     }
 
+    public static void printLineMap(List<LineDto> lines) {
+        System.out.println("## 지하철 노선도");
+        for (LineDto line : lines) {
+            printInfo(line.name());
+            printInfo("---");
+            line.stations().forEach(station -> printInfo(station.name()));
+        }
+    }
 
     public static void printStationRemovedMessage() {
         printInfo("지하철 역이 삭제되었습니다.");
@@ -65,7 +73,6 @@ public class OutputView {
     public static void printSectionRemovedMessage() {
         printInfo("구간이 삭제되었습니다.");
     }
-
 
     public static void printInfo(String message) {
         System.out.println("[INFO] " + message);

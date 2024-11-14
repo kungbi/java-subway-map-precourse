@@ -52,4 +52,6 @@ public class LineService {
         List<LineDto> linesDto = lines.stream().map(LineDto::from).toList();
         return new LineRetrieveOutputDto(linesDto);
     }
+
+
 }
