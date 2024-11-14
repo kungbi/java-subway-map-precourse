@@ -35,7 +35,7 @@ public class Line {
         stations.add(index, station);
     }
 
-    public void deleteStation(Station station) {
+    public void removeStation(Station station) {
         stations.remove(station);
     }
 

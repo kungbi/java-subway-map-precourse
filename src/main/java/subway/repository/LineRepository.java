@@ -3,12 +3,25 @@ package subway.repository;
 import java.util.ArrayList;
 import java.util.List;
 import subway.domain.Line;
+import subway.domain.Station;
 
 public class LineRepository implements Repository<Line> {
     private static final List<Line> lines = new ArrayList<>();
 
     public static void clear() {
         lines.clear();
+    }
+
+    public void addStation(Line line, Station station) {
+        line.addStation(station);
+    }
+
+    public void addStation(Line line, Station station, int index) {
+        line.addStation(station, index);
+    }
+
+    public void removeStation(Line line, Station station) {
+        line.removeStation(station);
     }
 
     @Override
