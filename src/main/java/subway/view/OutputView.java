@@ -1,7 +1,7 @@
 package subway.view;
 
 public class OutputView {
-    void printMainMenu() {
+    public void printMainMenu() {
         System.out.println("## 메인 화면");
         System.out.println("1. 역 관리");
         System.out.println("2. 노선 관리");
@@ -11,7 +11,7 @@ public class OutputView {
         System.out.println();
     }
 
-    void printStationManageMenu() {
+    public void printStationManageMenu() {
         System.out.println("## 역 관리 화면");
         System.out.println("1. 역 등록");
         System.out.println("2. 역 삭제");
@@ -20,7 +20,7 @@ public class OutputView {
         System.out.println();
     }
 
-    void printLineManageMenu() {
+    public void printLineManageMenu() {
         System.out.println("## 노선 관리 화면");
         System.out.println("1. 노선 등록");
         System.out.println("2. 노선 삭제");
@@ -29,7 +29,7 @@ public class OutputView {
         System.out.println();
     }
 
-    void printSectionManageMenu() {
+    public void printSectionManageMenu() {
         System.out.println("## 구간 관리 화면");
         System.out.println("1. 구간 등록");
         System.out.println("2. 구간 삭제");
@@ -37,11 +37,11 @@ public class OutputView {
         System.out.println();
     }
 
-    void printInfo(String message) {
+    public void printInfo(String message) {
         System.out.println("[INFO] " + message);
     }
 
-    void printError(String message) {
+    public void printError(String message) {
         System.out.println("[ERROR] " + message);
     }
 }

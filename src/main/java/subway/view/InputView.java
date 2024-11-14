@@ -2,10 +2,24 @@ package subway.view;
 
 public class InputView {
 
-    String getUserInput(String prompt) {
-        System.out.println(prompt);
+    public String getCommand() {
+        System.out.println("## 원하는 기능을 선택하세요.");
+        return getUserInput();
+    }
+
+    public String getRegisteredStationName() {
+        System.out.println("## 등록할 역 이름을 입력하세요.");
+        return getUserInput();
+    }
+
+    public String getRemovedLineName() {
+        System.out.println("## 삭제할 노선 이름을 입력하세요.");
+        return getUserInput();
+    }
+
+
+    private String getUserInput() {
         System.out.print("> ");
         return Console.readline();
     }
-
 }
