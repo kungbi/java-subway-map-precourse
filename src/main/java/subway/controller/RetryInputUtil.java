@@ -21,6 +21,8 @@ public class RetryInputUtil {
         this.outputView = outputView;
     }
 
+    // 메뉴 선택
+
     public String getMainCommand() {
         return retryLogics(inputView::getCommand, MainCommand::find);
     }
@@ -37,12 +39,50 @@ public class RetryInputUtil {
         return retryLogics(inputView::getCommand, SectionCommand::find);
     }
 
+    // 정류장 관련
+
     public String getRegisterStationName() {
         return retryLogics(inputView::getRegisterStationName, InputValidator::nullValidate);
     }
 
     public String getRemoveStationName() {
         return retryLogics(inputView::getRemoveStationName, InputValidator::nullValidate);
+    }
+
+    // 노선 관련
+
+    public String getRegisterLineName() {
+        return retryLogics(inputView::getRegisterLineName, InputValidator::nullValidate);
+    }
+
+    public String getRegisterLineStartStationName() {
+        return retryLogics(inputView::getRegisterLineStartStationName, InputValidator::nullValidate);
+    }
+
+    public String getRegisterLineEndStationName() {
+        return retryLogics(inputView::getRegisterLineEndStationName, InputValidator::nullValidate);
+    }
+
+    public String getRemoveLineName() {
+        return retryLogics(inputView::getRemoveLineName, InputValidator::nullValidate);
+    }
+
+    // 구간 관련
+
+    public String getLineName() {
+        return retryLogics(inputView::getLineName, InputValidator::nullValidate);
+    }
+
+    public String getStationName() {
+        return retryLogics(inputView::getStationName, InputValidator::nullValidate);
+    }
+
+    public String getOrderNumber() {
+        return retryLogics(inputView::getOrderNumber, InputValidator::nullValidate);
+    }
+
+    public String getRemoveSectionName() {
+        return retryLogics(inputView::getRemoveSectionName, InputValidator::nullValidate);
     }
 
     private <T> T retryLogics(Supplier<String> userInputReader, Function<String, T> parser, Consumer<T> validator) {
