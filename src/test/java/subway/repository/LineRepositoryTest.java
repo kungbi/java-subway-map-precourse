@@ -56,7 +56,7 @@ class LineRepositoryTest {
         lineRepository.add(line2);
 
         // when
-        lineRepository.deleteStation(line1.getName());
+        lineRepository.remove(line1);
 
         // then
         Assertions.assertEquals(1, lineRepository.getSize());

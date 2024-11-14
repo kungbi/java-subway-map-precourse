@@ -39,6 +39,10 @@ public class Line {
         stations.remove(station);
     }
 
+    public List<Station> getStations() {
+        return stations;
+    }
+
     public int getStationCount() {
         return stations.size();
     }

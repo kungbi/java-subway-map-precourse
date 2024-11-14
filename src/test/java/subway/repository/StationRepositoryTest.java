@@ -51,7 +51,7 @@ class StationRepositoryTest {
         repository.add(station2);
 
         // when
-        repository.deleteStation(station1.getName());
+        repository.remove(station1);
 
         // then
         Assertions.assertEquals(1, repository.getSize());

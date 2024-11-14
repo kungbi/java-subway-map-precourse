@@ -9,23 +9,25 @@ import subway.dto.StationRetrieveDto.StationRetrieveOutputDto;
 import subway.repository.StationRepository;
 
 public class StationService {
-    private final StationRepository repository;
+    private final StationRepository stationRepository;
 
     public StationService(StationRepository repository) {
-        this.repository = repository;
+        this.stationRepository = repository;
     }
 
     public void register(StationRegisterInputDto input) {
         Station newStation = new Station(input.stationName());
-        this.repository.add(newStation);
+        this.stationRepository.add(newStation);
     }
 
     public void remove(StationRemoveInputDto input) {
-        repository.deleteStation(input.stationName());
+
+        Station station = stationRepository.findByName(input.stationName());
+        stationRepository.remove(station);
     }
 
     public StationRetrieveOutputDto retrieve() {
-        List<Station> stations = this.repository.findAll();
+        List<Station> stations = this.stationRepository.findAll();
         List<StationDto> stationsDto = stations.stream().map(StationDto::from).toList();
 
         return new StationRetrieveOutputDto(stationsDto);

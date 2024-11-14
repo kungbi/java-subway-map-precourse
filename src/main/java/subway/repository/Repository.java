@@ -6,7 +6,7 @@ public interface Repository<T> {
 
     void add(T data);
 
-    void deleteStation(String name);
+    void remove(T data);
 
     int getSize();
 

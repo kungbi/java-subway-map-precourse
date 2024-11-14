@@ -23,14 +23,8 @@ public class LineRepository implements Repository<Line> {
     }
 
     @Override
-    public void deleteStation(String name) {
-        for (Line line : lines) {
-            if (line.getName().equals(name)) {
-                lines.remove(line);
-                return;
-            }
-        }
-        throw new IllegalArgumentException("삭제할게 없음");
+    public void remove(Line line) {
+        lines.remove(line);
     }
 
     @Override

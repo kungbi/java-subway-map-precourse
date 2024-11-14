@@ -23,14 +23,8 @@ public class StationRepository implements Repository<Station> {
     }
 
     @Override
-    public void deleteStation(String name) {
-        for (Station station : stations) {
-            if (station.getName().equals(name)) {
-                stations.remove(station);
-                return ;
-            }
-        }
-        throw new IllegalArgumentException("삭제할게 없음");
+    public void remove(Station station) {
+        stations.remove(station);
     }
 
     @Override
