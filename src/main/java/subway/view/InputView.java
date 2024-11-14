@@ -7,8 +7,13 @@ public class InputView {
         return getUserInput();
     }
 
-    public String getRegisteredStationName() {
+    public String getRegisterStationName() {
         System.out.println("## 등록할 역 이름을 입력하세요.");
+        return getUserInput();
+    }
+
+    public String getRemoveStationName() {
+        System.out.println("## 삭제할 역 이름을 입력하세요.");
         return getUserInput();
     }
 

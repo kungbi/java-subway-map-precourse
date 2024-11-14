@@ -21,7 +21,6 @@ public class StationService {
     }
 
     public void remove(StationRemoveInputDto input) {
-
         Station station = stationRepository.findByName(input.stationName());
         stationRepository.remove(station);
     }

@@ -1,9 +1,15 @@
 package subway.controller;
 
+import java.util.List;
 import subway.command.LineCommand;
 import subway.command.MainCommand;
 import subway.command.SectionCommand;
 import subway.command.StationCommand;
+import subway.dto.StationDto;
+import subway.dto.StationRegisterDto.StationRegisterInputDto;
+import subway.dto.StationRemoveDto.StationRemoveInputDto;
+import subway.service.LineService;
+import subway.service.StationService;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -11,11 +17,15 @@ public class SubwayController {
     private final InputView inputView;
     private final OutputView outputView;
     private final RetryInputUtil retryInputUtil;
+    private final StationService stationService;
+    private final LineService lineService;
 
-
-    public SubwayController(InputView inputView, OutputView outputView) {
+    public SubwayController(InputView inputView, OutputView outputView, StationService stationService,
+                            LineService lineService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.stationService = stationService;
+        this.lineService = lineService;
         this.retryInputUtil = new RetryInputUtil(inputView, outputView);
     }
 
@@ -23,10 +33,14 @@ public class SubwayController {
         int state = 0;
 
         while (state == 0) {
-            outputView.printMainMenu();
-            MainCommand mainCommand = MainCommand.find(retryInputUtil.getMainCommand());
+            try {
+                outputView.printMainMenu();
+                MainCommand mainCommand = MainCommand.find(retryInputUtil.getMainCommand());
 
-            state = mainLogic(mainCommand);
+                state = mainLogic(mainCommand);
+            } catch (IllegalArgumentException error) {
+                outputView.printError(error.getMessage());
+            }
         }
     }
 
@@ -38,6 +52,7 @@ public class SubwayController {
         if (mainCommand == MainCommand.STATION) {
             outputView.printStationManageMenu();
             StationCommand stationCommand = StationCommand.find(retryInputUtil.getStationCommand());
+            this.stationLogic(stationCommand);
         }
         if (mainCommand == MainCommand.LINE) {
             outputView.printLineManageMenu();
@@ -52,6 +67,25 @@ public class SubwayController {
         }
 
         return 0;
+    }
+
+    private void stationLogic(StationCommand stationCommand) {
+        if (stationCommand == StationCommand.BACK) {
+            return;
+        }
+
+        if (stationCommand == StationCommand.REGISTER) {
+            String stationName = retryInputUtil.getRegisterStationName();
+            stationService.register(new StationRegisterInputDto(stationName));
+        }
+        if (stationCommand == StationCommand.REMOVE) {
+            String stationName = retryInputUtil.getRemoveStationName();
+            stationService.remove(new StationRemoveInputDto(stationName));
+        }
+        if (stationCommand == StationCommand.RETRIEVE) {
+            List<StationDto> stations = stationService.retrieve().stations();
+            outputView.printStations(stations);
+        }
     }
 
 

@@ -7,6 +7,7 @@ import subway.command.LineCommand;
 import subway.command.MainCommand;
 import subway.command.SectionCommand;
 import subway.command.StationCommand;
+import subway.validator.InputValidator;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -34,6 +35,14 @@ public class RetryInputUtil {
 
     public String getSectionCommand() {
         return retryLogics(inputView::getCommand, SectionCommand::find);
+    }
+
+    public String getRegisterStationName() {
+        return retryLogics(inputView::getRegisterStationName, InputValidator::nullValidate);
+    }
+
+    public String getRemoveStationName() {
+        return retryLogics(inputView::getRemoveStationName, InputValidator::nullValidate);
     }
 
     private <T> T retryLogics(Supplier<String> userInputReader, Function<String, T> parser, Consumer<T> validator) {

@@ -1,5 +1,8 @@
 package subway.view;
 
+import java.util.List;
+import subway.dto.StationDto;
+
 public class OutputView {
     public void printMainMenu() {
         System.out.println("## 메인 화면");
@@ -37,11 +40,18 @@ public class OutputView {
         System.out.println();
     }
 
+    public void printStations(List<StationDto> stations) {
+        System.out.println("## 역 목록");
+        stations.forEach((station) -> this.printInfo(station.name()));
+        System.out.println();
+    }
+
     public void printInfo(String message) {
         System.out.println("[INFO] " + message);
     }
 
     public void printError(String message) {
         System.out.println("[ERROR] " + message);
+        System.out.println();
     }
 }
