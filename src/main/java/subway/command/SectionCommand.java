@@ -1,6 +1,6 @@
 package subway.command;
 
-public enum SectionCommand {
+public enum SectionCommand implements Command {
     REGISTER("1", "구간 등록"),
     REMOVE("2", "구간 삭제"),
     BACK("B", "돌아가기");
@@ -13,20 +13,12 @@ public enum SectionCommand {
         this.description = description;
     }
 
-    public static SectionCommand find(String input) {
-        for (SectionCommand sectionCommand : SectionCommand.values()) {
-            if (sectionCommand.command.equals(input)) {
-                return sectionCommand;
-            }
-        }
-        throw new IllegalArgumentException("선택할 수 없는 기능입니다.");
-    }
-
-
+    @Override
     public String getCommand() {
         return command;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

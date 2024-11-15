@@ -1,6 +1,7 @@
 package subway.controller;
 
 import java.util.List;
+import subway.command.Command;
 import subway.command.LineCommand;
 import subway.command.MainCommand;
 import subway.command.SectionCommand;
@@ -39,7 +40,7 @@ public class SubwayController {
         while (state == 0) {
             try {
                 OutputView.printMainMenu();
-                MainCommand mainCommand = MainCommand.find(RetryInputUtil.getMainCommand());
+                MainCommand mainCommand = Command.findCommand(RetryInputUtil.getMainCommand(), MainCommand.values());
 
                 state = mainLogic(mainCommand);
             } catch (IllegalArgumentException error) {
@@ -55,17 +56,19 @@ public class SubwayController {
 
         if (mainCommand == MainCommand.STATION) {
             OutputView.printStationManageMenu();
-            StationCommand stationCommand = StationCommand.find(StationRetryInput.getCommand());
+            StationCommand stationCommand = Command.findCommand(StationRetryInput.getCommand(),
+                    StationCommand.values());
             this.stationLogic(stationCommand);
         }
         if (mainCommand == MainCommand.LINE) {
             OutputView.printLineManageMenu();
-            LineCommand lineCommand = LineCommand.find(LineRetryInput.getCommand());
+            LineCommand lineCommand = Command.findCommand(LineRetryInput.getCommand(), LineCommand.values());
             this.lineLogic(lineCommand);
         }
         if (mainCommand == MainCommand.SECTION) {
             OutputView.printSectionManageMenu();
-            SectionCommand sectionCommand = SectionCommand.find(SectionRetryInput.getCommand());
+            SectionCommand sectionCommand = Command.findCommand(SectionRetryInput.getCommand(),
+                    SectionCommand.values());
             this.sectionLogic(sectionCommand);
         }
         if (mainCommand == MainCommand.LINE_PRINT) {

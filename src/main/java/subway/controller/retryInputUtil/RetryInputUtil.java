@@ -3,6 +3,7 @@ package subway.controller.retryInputUtil;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import subway.command.Command;
 import subway.command.MainCommand;
 import subway.view.InputView;
 import subway.view.OutputView;
@@ -10,7 +11,7 @@ import subway.view.OutputView;
 public class RetryInputUtil {
 
     public static String getMainCommand() {
-        return retryLogics(InputView::getCommand, MainCommand::find);
+        return retryLogics(InputView::getCommand, (input) -> Command.findCommand(input, MainCommand.values()));
     }
 
     public static <T> T retryLogics(Supplier<String> userInputReader, Function<String, T> parser,

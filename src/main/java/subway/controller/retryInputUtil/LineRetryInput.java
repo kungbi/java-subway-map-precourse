@@ -1,5 +1,6 @@
 package subway.controller.retryInputUtil;
 
+import subway.command.Command;
 import subway.command.LineCommand;
 import subway.validator.InputValidator;
 import subway.view.InputView;
@@ -8,7 +9,7 @@ import subway.view.LineInputView;
 public class LineRetryInput {
 
     public static String getCommand() {
-        return RetryInputUtil.retryLogics(InputView::getCommand, LineCommand::find);
+        return RetryInputUtil.retryLogics(InputView::getCommand, (input) -> Command.findCommand(input, LineCommand.values()));
     }
 
     public static String getRegisterLineName() {

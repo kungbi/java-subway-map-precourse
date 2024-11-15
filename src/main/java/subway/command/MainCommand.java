@@ -1,6 +1,6 @@
 package subway.command;
 
-public enum MainCommand {
+public enum MainCommand implements Command {
     STATION("1", "역 관리 "),
     LINE("2", "노선 관리"),
     SECTION("3", "구간 관리"),
@@ -15,19 +15,12 @@ public enum MainCommand {
         this.description = description;
     }
 
-    public static MainCommand find(String input) {
-        for (MainCommand mainCommand : MainCommand.values()) {
-            if (mainCommand.command.equals(input)) {
-                return mainCommand;
-            }
-        }
-        throw new IllegalArgumentException("선택할 수 없는 기능입니다.");
-    }
-
+    @Override
     public String getCommand() {
         return command;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

@@ -1,5 +1,6 @@
 package subway.controller.retryInputUtil;
 
+import subway.command.Command;
 import subway.command.StationCommand;
 import subway.validator.InputValidator;
 import subway.view.InputView;
@@ -8,7 +9,8 @@ import subway.view.StationInputView;
 public class StationRetryInput {
 
     public static String getCommand() {
-        return RetryInputUtil.retryLogics(InputView::getCommand, StationCommand::find);
+        return RetryInputUtil.retryLogics(InputView::getCommand,
+                (input) -> Command.findCommand(input, StationCommand.values()));
     }
 
     public static String getStationName() {
