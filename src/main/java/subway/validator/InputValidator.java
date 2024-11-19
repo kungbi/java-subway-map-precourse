@@ -1,5 +1,9 @@
 package subway.validator;
 
+import subway.config.Configuration;
+import subway.exception.GlobalExceptionMessage;
+import subway.exception.StationExceptionMessage;
+
 public class InputValidator {
 
     public static void commandValidate(String command) {
@@ -7,14 +11,14 @@ public class InputValidator {
     }
 
     public static void orderNumberValidate(int orderNumber) {
-        if (orderNumber < 1) {
-            throw new IllegalArgumentException("1이상의 값을 입력해야 합니다.");
+        if (orderNumber < Configuration.ORDER_MIN_NUMBER.getInt()) {
+            throw new IllegalArgumentException(StationExceptionMessage.NAME_LENGTH_MIN.getMessage());
         }
     }
 
     public static void nullValidate(String input) {
         if (input == null || input.isEmpty()) {
-            throw new IllegalArgumentException("입력값이 NULL이거나 빈 문자열 입니다.");
+            throw new IllegalArgumentException(GlobalExceptionMessage.NULL_POINTER.getMessage());
         }
     }
 

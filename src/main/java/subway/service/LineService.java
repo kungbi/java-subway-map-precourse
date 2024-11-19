@@ -7,6 +7,8 @@ import subway.dto.LineDto;
 import subway.dto.LineRegisterDto.LineRegisterInputDto;
 import subway.dto.LineRemoveDto.LineRemoveInputDto;
 import subway.dto.LineRetrieveDto.LineRetrieveOutputDto;
+import subway.exception.LineExceptionMessage;
+import subway.exception.StationExceptionMessage;
 import subway.repository.LineRepository;
 import subway.repository.StationRepository;
 
@@ -27,12 +29,14 @@ public class LineService {
     public void register(LineRegisterInputDto input) {
         Station startStation = stationRepository.findByName(input.startStation());
         if (startStation == null) {
-            throw new IllegalArgumentException(String.format("%s 정류장은 존재하지 않습니다.", input.startStation()));
+            throw new IllegalArgumentException(
+                    String.format(StationExceptionMessage.NOT_EXIST_STATION.getMessage(), input.startStation()));
         }
 
         Station endStation = stationRepository.findByName(input.endStation());
         if (endStation == null) {
-            throw new IllegalArgumentException(String.format("%s 정류장은 존재하지 않습니다.", input.endStation()));
+            throw new IllegalArgumentException(
+                    String.format(StationExceptionMessage.NOT_EXIST_STATION.getMessage(), input.endStation()));
         }
 
         Line newLine = new Line(input.lineName(), startStation, endStation);
@@ -41,7 +45,8 @@ public class LineService {
 
     public void remove(LineRemoveInputDto input) {
         if (lineRepository.findByName(input.lineName()) == null) {
-            throw new IllegalArgumentException(String.format("%s 노선은 존재하지 않습니다.", input.lineName()));
+            throw new IllegalArgumentException(
+                    String.format(LineExceptionMessage.NOT_EXIST_LINE.getMessage(), input.lineName()));
         }
         Line line = lineRepository.findByName(input.lineName());
         lineRepository.remove(line);

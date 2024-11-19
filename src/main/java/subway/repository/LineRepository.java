@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import subway.domain.Line;
 import subway.domain.Station;
+import subway.exception.GlobalExceptionMessage;
+import subway.exception.LineExceptionMessage;
 
 public class LineRepository implements Repository<Line> {
     private final List<Line> lines = new ArrayList<>();
@@ -23,10 +25,10 @@ public class LineRepository implements Repository<Line> {
     @Override
     public void add(Line line) {
         if (line == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(GlobalExceptionMessage.NULL_POINTER.getMessage());
         }
-        if (findByName(line.getName()) != null) { // 중복 체크
-            throw new IllegalArgumentException();
+        if (this.findByName(line.getName()) != null) { // 중복 체크
+            throw new IllegalArgumentException(LineExceptionMessage.EXIST_LINE_NAME.getMessage());
         }
         lines.add(line);
     }

@@ -1,15 +1,19 @@
 package subway.validator;
 
+import subway.config.Configuration;
+import subway.exception.GlobalExceptionMessage;
+import subway.exception.StationExceptionMessage;
+
 public class StationValidator {
     private StationValidator() {
     }
 
     public static void validate(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("역의 이름이 NULL");
+            throw new IllegalArgumentException(GlobalExceptionMessage.NULL_POINTER.getMessage());
         }
-        if (name.length() < 2) {
-            throw new IllegalArgumentException("역의 이름은 2자 이상이어야 함.");
+        if (name.length() < Configuration.STATION_NAME_MIN_LENGTH.getInt()) {
+            throw new IllegalArgumentException(StationExceptionMessage.NAME_LENGTH_MIN.getMessage());
         }
     }
 }

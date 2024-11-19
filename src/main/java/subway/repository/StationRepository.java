@@ -3,8 +3,10 @@ package subway.repository;
 import java.util.ArrayList;
 import java.util.List;
 import subway.domain.Station;
+import subway.exception.StationExceptionMessage;
 
 public class StationRepository implements Repository<Station> {
+
     private final List<Station> stations = new ArrayList<>();
 
     @Override
@@ -13,7 +15,7 @@ public class StationRepository implements Repository<Station> {
             throw new IllegalArgumentException();
         }
         if (this.findByName(station.getName()) != null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(StationExceptionMessage.EXIST_STATION_NAME.getMessage());
         }
         stations.add(station);
     }
