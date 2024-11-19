@@ -1,37 +1,32 @@
 package subway.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import subway.command.Command;
-import subway.command.LineCommand;
 import subway.command.MainCommand;
-import subway.command.SectionCommand;
-import subway.command.StationCommand;
-import subway.controller.retryInputUtil.LineRetryInput;
+import subway.controller.handler.Handler;
+import subway.controller.handler.LineHandler;
+import subway.controller.handler.SectionHandler;
+import subway.controller.handler.StationHandler;
 import subway.controller.retryInputUtil.RetryInputUtil;
-import subway.controller.retryInputUtil.SectionRetryInput;
-import subway.controller.retryInputUtil.StationRetryInput;
 import subway.dto.LineDto;
-import subway.dto.LineRegisterDto.LineRegisterInputDto;
-import subway.dto.LineRemoveDto.LineRemoveInputDto;
-import subway.dto.SectionRegisterDto.SectionRegisterInputDto;
-import subway.dto.SectionRemoveDto.SectionRemoveInputDto;
-import subway.dto.StationDto;
-import subway.dto.StationRegisterDto.StationRegisterInputDto;
-import subway.dto.StationRemoveDto.StationRemoveInputDto;
 import subway.service.LineService;
 import subway.service.SectionService;
 import subway.service.StationService;
 import subway.view.OutputView;
 
 public class SubwayController {
-    private final StationService stationService;
     private final LineService lineService;
-    private final SectionService sectionService;
+    private final Map<MainCommand, Handler> commandHandlers;
 
     public SubwayController(StationService stationService, LineService lineService, SectionService sectionService) {
-        this.stationService = stationService;
         this.lineService = lineService;
-        this.sectionService = sectionService;
+
+        this.commandHandlers = new HashMap<>();
+        this.commandHandlers.put(MainCommand.STATION, new StationHandler(stationService));
+        this.commandHandlers.put(MainCommand.LINE, new LineHandler(lineService));
+        this.commandHandlers.put(MainCommand.SECTION, new SectionHandler(sectionService));
     }
 
     public void run() {
@@ -54,89 +49,19 @@ public class SubwayController {
             return 1;
         }
 
-        if (mainCommand == MainCommand.STATION) {
-            OutputView.printStationManageMenu();
-            StationCommand stationCommand = Command.findCommand(StationRetryInput.getCommand(),
-                    StationCommand.values());
-            this.stationLogic(stationCommand);
-        }
-        if (mainCommand == MainCommand.LINE) {
-            OutputView.printLineManageMenu();
-            LineCommand lineCommand = Command.findCommand(LineRetryInput.getCommand(), LineCommand.values());
-            this.lineLogic(lineCommand);
-        }
-        if (mainCommand == MainCommand.SECTION) {
-            OutputView.printSectionManageMenu();
-            SectionCommand sectionCommand = Command.findCommand(SectionRetryInput.getCommand(),
-                    SectionCommand.values());
-            this.sectionLogic(sectionCommand);
+        if (this.commandHandlers.containsKey(mainCommand)) {
+            this.commandHandlers.get(mainCommand).handle();
         }
         if (mainCommand == MainCommand.LINE_PRINT) {
-            List<LineDto> lines = lineService.retrieve().lines();
-            OutputView.printLineMap(lines);
+            printLineMap();
         }
 
         return 0;
     }
 
-    private void stationLogic(StationCommand stationCommand) {
-        if (stationCommand == StationCommand.BACK) {
-            return;
-        }
-
-        if (stationCommand == StationCommand.REGISTER) {
-            String stationName = StationRetryInput.getStationName();
-            stationService.register(new StationRegisterInputDto(stationName));
-        }
-        if (stationCommand == StationCommand.REMOVE) {
-            String stationName = StationRetryInput.getRemoveStationName();
-            stationService.remove(new StationRemoveInputDto(stationName));
-            OutputView.printStationRemovedMessage();
-        }
-        if (stationCommand == StationCommand.RETRIEVE) {
-            List<StationDto> stations = stationService.retrieve().stations();
-            OutputView.printStations(stations);
-        }
+    private void printLineMap() {
+        List<LineDto> lines = lineService.retrieve().lines();
+        OutputView.printLineMap(lines);
     }
 
-    private void lineLogic(LineCommand lineCommand) {
-        if (lineCommand == LineCommand.BACK) {
-            return;
-        }
-
-        if (lineCommand == LineCommand.REGISTER) {
-            String lineName = LineRetryInput.getRegisterLineName();
-            String startStationName = LineRetryInput.getRegisterLineStartStationName();
-            String endStationName = LineRetryInput.getRegisterLineEndStationName();
-            lineService.register(new LineRegisterInputDto(lineName, startStationName, endStationName));
-        }
-        if (lineCommand == LineCommand.REMOVE) {
-            String lineName = LineRetryInput.getRemoveLineName();
-            lineService.remove(new LineRemoveInputDto(lineName));
-            OutputView.printLineRemovedMessage();
-        }
-        if (lineCommand == LineCommand.RETRIEVE) {
-            List<LineDto> lines = lineService.retrieve().lines();
-            OutputView.printLines(lines);
-        }
-    }
-
-    private void sectionLogic(SectionCommand sectionCommand) {
-        if (sectionCommand == SectionCommand.BACK) {
-            return;
-        }
-
-        if (sectionCommand == SectionCommand.REGISTER) {
-            String lineName = SectionRetryInput.getLineName();
-            String stationName = SectionRetryInput.getStationName();
-            int orderNumber = SectionRetryInput.getOrderNumber();
-            sectionService.register(new SectionRegisterInputDto(lineName, stationName, orderNumber));
-        }
-        if (sectionCommand == SectionCommand.REMOVE) {
-            String lineName = SectionRetryInput.getRemoveLineName();
-            String stationName = SectionRetryInput.getRemoveStationName();
-            sectionService.remove(new SectionRemoveInputDto(lineName, stationName));
-            OutputView.printSectionRemovedMessage();
-        }
-    }
 }
