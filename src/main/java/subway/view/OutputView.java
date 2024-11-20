@@ -60,6 +60,7 @@ public class OutputView {
             printInfo(line.name());
             printInfo("---");
             line.stations().forEach(station -> printInfo(station.name()));
+            System.out.println();
         }
     }
 
