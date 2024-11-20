@@ -68,7 +68,7 @@ public class SubwayFileInitializer {
 
             Line line = new Line(lineFieldsDto.lineName(), stations.getFirst(), stations.getLast());
             lineRepository.add(line);
-            for (int i = 1; i < stations.size(); i++) {
+            for (int i = 1; i < stations.size() - 1; i++) {
                 Station station = stations.get(i);
                 lineRepository.addStation(line, station, i);
             }
